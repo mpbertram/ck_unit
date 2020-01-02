@@ -1,0 +1,26 @@
+<project name="ck_unit" default="run-test" basedir=".">
+  <property name="test-src" location="src/test"/>
+  <property name="test-dest-dir" value="test"/>
+  <property name="test-dest" value="${test-dest-dir}/test.ck"/>
+  
+  <target name="clean">
+    <delete dir="${test-dest-dir}"/>
+  </target>
+  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${test-dest-dir}"/>
+  </target>
+
+  <target name="assemble-test" depends="clean,init">
+    <concat destfile="${test-dest}">
+      <fileset dir="${test-src}" includes="*.ck"/>
+    </concat>
+  </target>
+  
+  <target name="run-test" depends="assemble-test">
+    <exec executable="chuck">
+      <arg value="src/main/TestRunner.ck:${test-dest}"/>
+    </exec>
+  </target>
+</project>
